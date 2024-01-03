@@ -1,85 +1,157 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class Exercise {
-  final String name;
-  final String imageUrl;
-
-  Exercise({required this.name, required this.imageUrl});
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final List<Exercise> exercises = [
-    Exercise(name: 'Push-ups', imageUrl: 'assets/pushups.png'),
-    Exercise(name: 'Squats', imageUrl: 'assets/squats.png'),
-    Exercise(name: 'Plank', imageUrl: 'assets/plank.png'),
-    // Add more exercises as needed
-  ];
+  const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Exercise Page',
-      home: ExercisePage(exercises: exercises),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+
+
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class ExercisePage extends StatelessWidget {
-  final List<Exercise> exercises;
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
 
-  ExercisePage({required this.exercises});
+
+
+  final String title;
 
   @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+var wtController = TextEditingController();
+var ftController = TextEditingController();
+var inController = TextEditingController();
+
+var result = "";
+var bgColor =  Colors.deepPurple.shade200;
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Exercise Page'),
+
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+
+        title: Text('yourbmi'),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          color: Colors.blueGrey, // Set your desired background color here
-        ),
-        child: ListView.builder(
-          itemCount: exercises.length,
-          itemBuilder: (context, index) {
-            return ExerciseCard(exercise: exercises[index]);
-          },
-        ),
-      ),
-    );
-  }
-}
+        color: bgColor,
+        child: Center(
+          child: Container(
+            width: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('BMI', style: TextStyle(
+                  fontSize: 34, fontWeight: FontWeight.w700
+                ),),
+                SizedBox(height: 21,),
 
-class ExerciseCard extends StatelessWidget {
-  final Exercise exercise;
+                TextField(
+                  controller: wtController,
+                  decoration: InputDecoration(
+                    label: Text('Enter Your Weight In KGs '),
+                     prefixIcon: Icon(Icons.line_weight)
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(height: 11,),
 
-  ExerciseCard({required this.exercise});
+                TextField(
+                  controller: ftController,
+                  decoration: InputDecoration(
+                      label: Text('Enter Your Height In feet '),
+                      prefixIcon: Icon(Icons.height)
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(height: 11,),
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Image.asset(
-            exercise.imageUrl,
-            width: double.infinity,
-            height: 150.0,
-            fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              exercise.name,
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                TextField(
+                  controller: inController,
+                  decoration: InputDecoration(
+                      label: Text('Enter Your Height In inch '),
+                      prefixIcon: Icon(Icons.height)
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(height: 16,),
+
+                ElevatedButton(onPressed: (){
+
+
+                  var wt = wtController.text.toString();
+                  var ft = ftController.text.toString();
+                  var inch = inController.text.toString();
+
+                  if(wt!="" && ft!="" && inch!=""){
+
+                    //BMI CALCULATER
+                    var iWt = int.parse(wt);
+                    var iFt = int.parse(ft);
+                    var iInch = int.parse(inch);
+
+                    var tInch = (iFt*12) +iInch;
+
+                    var tCm = tInch*2.54;
+
+                    var tM = tCm/100;
+
+                    var bmi = iWt/(tM*tM);
+
+                    var msg ="";
+
+                    if(bmi>25){
+                      msg = "Yor Are Over Weight";
+                      bgColor = Colors.orange.shade200;
+
+                    }else if(bmi<18){
+                      msg = "Yor Are under Weight";
+                      bgColor = Colors.red.shade200;
+
+                    } else{
+                      msg = "Yor Are MashAllah Healthy";
+                      bgColor = Colors.green.shade200;
+
+                    }
+                    setState(() {
+                      result = "$msg \n Your BMI is : ${bmi.toStringAsFixed(4)}";
+                    });
+
+                  }else {
+                    setState(() {
+                      result = "Please Fill all of the above";
+                    });
+
+                  }
+                }, child: Text('Calculate')),
+
+                SizedBox(height: 11,),
+                Text(result, style: TextStyle(fontSize: 19),)
+
+              ],
             ),
           ),
-        ],
-      ),
-    );
+        ),
+      )
+
+      ); // This trailing comma makes auto-formatting nicer for build methods.
   }
 }
