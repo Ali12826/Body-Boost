@@ -4,170 +4,81 @@ void main() {
   runApp(MyApp());
 }
 
+class Exercise {
+  final String name;
+  final String imageUrl;
+
+  Exercise({required this.name, required this.imageUrl});
+}
+
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final List<Exercise> exercises = [
+    Exercise(name: 'Push-ups', imageUrl: 'assets/pushups.png'),
+    Exercise(name: 'Squats', imageUrl: 'assets/squats.png'),
+    Exercise(name: 'Plank', imageUrl: 'assets/plank.png'),
+    // Add more exercises as needed
+  ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      title: 'Exercise Page',
+      home: ExercisePage(exercises: exercises),
     );
   }
 }
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
+class ExercisePage extends StatelessWidget {
+  final List<Exercise> exercises;
 
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    // Navigate to MyApp after a delay
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DefaultTabController(
-            length: 2,
-            child: Scaffold(
-              appBar: AppBar(
-                title: const Text('Login & Signup'),
-                bottom: const TabBar(
-                  tabs: [
-                    Tab(text: 'Login'),
-                    Tab(text: 'Signup'),
-                  ],
-                ),
-              ),
-              body: const TabBarView(
-                children: [
-                  LoginCard(),
-                  SignupCard(),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    });
-  }
+  ExercisePage({required this.exercises});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Exercise Page'),
+      ),
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/Splach.png"),
+          color: Colors.blueGrey, // Set your desired background color here
+        ),
+        child: ListView.builder(
+          itemCount: exercises.length,
+          itemBuilder: (context, index) {
+            return ExerciseCard(exercise: exercises[index]);
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class ExerciseCard extends StatelessWidget {
+  final Exercise exercise;
+
+  ExerciseCard({required this.exercise});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Image.asset(
+            exercise.imageUrl,
+            width: double.infinity,
+            height: 150.0,
             fit: BoxFit.cover,
           ),
-        ),
-        child: const Center(
-          child: Text(
-            'BodyBoost',
-            style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              exercise.name,
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class LoginCard extends StatelessWidget {
-  const LoginCard({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/Login.png"), //  login image asset
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Center(
-        child: Card(
-          margin: const EdgeInsets.all(20.0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const TextField(
-                  decoration: InputDecoration(labelText: 'Email'),
-                ),
-                const SizedBox(height: 10),
-                const TextField(
-                  decoration: InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle login logic here
-                  },
-                  child: const Text('Login'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SignupCard extends StatelessWidget {
-  const SignupCard({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/Signup.png"),      //Sign up image
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Center(
-        child: Card(
-          margin: const EdgeInsets.all(20.0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const TextField(
-                  decoration: InputDecoration(labelText: 'Full Name'),
-                ),
-                const SizedBox(height: 10),
-                const TextField(
-                  decoration: InputDecoration(labelText: 'Email'),
-                ),
-                const SizedBox(height: 10),
-                const TextField(
-                  decoration: InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle signup logic here
-                  },
-                  child: const Text('Signup'),
-                ),
-              ],
-            ),
-          ),
-        ),
+        ],
       ),
     );
   }
