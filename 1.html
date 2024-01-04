@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>User Login Form</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            .form-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid #f1f1f1;
+                padding: 20px;
+            }
+            .form-container input[type=text],
+            .form-container input[type=password] {
+                width: 100%;
+                padding: 15px;
+                margin: 5px 0 22px 0;
+                border: none;
+                background: #f1f1f1;
+            }
+            .form-container input[type=text]:focus,
+            .form-container input[type=password]:focus {
+                background-color: #ddd;
+                outline: none;
+            }
+            .form-container button {
+                background-color: #4CAF50;
+                color: white;
+                padding: 16px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                opacity: 0.9;
+            }
+            .form-container button:hover {
+                opacity: 1;
+            }
+            .form-container .register-btn {
+                background-color: #f44336;
+            }
+            .form-container .register-btn:hover {
+                background-color: #ff9800;
+            }
+            .form-container .register-btn a {
+                color: white;
+                text-decoration: none;
+            }
+            @media only screen and (max-width: 600px) {
+                .form-container {
+                    width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="form-container">
+            <h1>Login Form</h1>
+            <form action="/action_page.php">
+                <label for="username">Username</label>
+                <input type="text" placeholder="Enter username" name="username" required>
+                <label for="password">Password</label>
+                <input type="password" placeholder="Enter Password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+            <div class="register-btn">
+                <a href="file:///C:/Users/shehr/Desktop/2.html">Don't have an account? Register</a>
+            </div>
+        </div>
+    </body>
+</html>
