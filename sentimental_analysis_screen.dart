@@ -1,105 +1,136 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:http/http.dart' as http;
 
-
-class SentimentAnalysisScreen extends StatefulWidget {
-  @override
-  _SentimentAnalysisScreenState createState() => _SentimentAnalysisScreenState();
+void main() {
+  runApp(MyApp());
 }
 
-class _SentimentAnalysisScreenState extends State<SentimentAnalysisScreen> {
-  TextEditingController _textController = TextEditingController();
-  String _predictedSentiment = '';
-  bool _modelLoaded = false;
-
-  get Tflite => null;
-
-  get inputText => null;
-
+class MyApp extends StatelessWidget {
   @override
-  void initState() {
-    super.initState();
-    // Load the model when the screen is initialized
-    loadModel();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Sentiment Analysis App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: SentimentAnalysisPage(),
+    );
   }
+}
 
-  // Method to load the TFLite model
-  loadModel() async {
-    // Load the model
-    var modelFile = 'tflite_model_another2 (1).tflite'; // Replace with the path to your model file
-    var labelsFile = 'file.txt'; // Replace with the path to your labels file
+class SentimentAnalysisPage extends StatefulWidget {
+  @override
+  _SentimentAnalysisPageState createState() => _SentimentAnalysisPageState();
+}
 
-    await Tflite.loadModel(
-      model: modelFile,
-      labels: labelsFile,
+class _SentimentAnalysisPageState extends State<SentimentAnalysisPage> {
+  TextEditingController _inputController = TextEditingController();
+  String _inputText = '';
+  String _sentimentResult = '';
+
+  final String API_URL =
+      "https://api-inference.huggingface.co/models/cardiffnlp/twitter-roberta-base-sentiment";
+  final String token = "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";
+
+  // Mapping between original labels and sentiment categories
+  final Map<String, String> labelMapping = {
+    'LABEL_0': 'Negative',
+    'LABEL_1': 'Neutral',
+    'LABEL_2': 'Positive',
+  };
+
+  Future<void> _getSentimentAnalysis(String input) async {
+    final Map<String, String> headers = {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
+    };
+
+    final response = await http.post(
+      Uri.parse(API_URL),
+      headers: headers,
+      body: jsonEncode({"inputs": input}),
     );
 
-    // Perform any additional setup after the model is loaded
-    print('Model loaded successfully');
-    setState(() {
-      _modelLoaded = true;
-    });
+    if (response.statusCode == 200) {
+      final dynamic output = jsonDecode(response.body);
+      if (output.isNotEmpty) {
+        final List<dynamic> results = output[0];
+        final Map<String, double> labelScores = {};
+        double totalScore = 0;
+        results.forEach((result) {
+          final label = result['label'];
+          final score = result['score'];
+          labelScores[label] = score;
+          totalScore += score;
+        });
+        final List<String> sentiments = [];
+        labelMapping.forEach((label, sentiment) {
+          final score = labelScores[label] ?? 0;
+          final percentage = totalScore > 0 ? (score / totalScore) * 100 : 0;
+          sentiments.add('$sentiment (${percentage.toStringAsFixed(2)}%)');
+        });
+        final String sentimentText = sentiments.join(', ');
+        setState(() {
+          _sentimentResult = sentimentText;
+        });
+      } else {
+        setState(() {
+          _sentimentResult = 'Output is empty';
+        });
+      }
+    } else {
+      setState(() {
+        _sentimentResult = 'Failed to get sentiment analysis';
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sentiment Analysis'),
+        title: Text('Sentiment Analysis App'),
       ),
-      body: _modelLoaded
-          ? CircularProgressIndicator():
-        Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
-              controller: _textController,
+              controller: _inputController,
               decoration: InputDecoration(
-                labelText: 'Enter text',
+                hintText: 'Enter your input...',
               ),
-            ),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                _predictSentiment();
+              onChanged: (value) {
+                setState(() {
+                  _inputText = value;
+                });
               },
-              child: Text('Predict Sentiment'),
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () async {
+                String input = _inputController.text.trim();
+                if (input.isNotEmpty) {
+                  await _getSentimentAnalysis(input);
+                } else {
+                  setState(() {
+                    _sentimentResult = 'Input is empty';
+                  });
+                }
+              },
+              child: Text('Submit'),
+            ),
+            SizedBox(height: 16),
             Text(
-              'Predicted Sentiment: $_predictedSentiment',
+              'Sentiment Result: $_sentimentResult',
+              style: TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
           ],
         ),
-      )
-
-         // Show loading indicator while model is being loaded
+      ),
     );
-  }
-
-  // Method to predict sentiment using the loaded model
-  void _predictSentiment() async {
-    var output = await Tflite.runModelOnBinary(
-      binary: inputText,
-    );
-
-    // Print the output for debugging
-    print('Output: $output');
-
-    setState(() {
-      _predictedSentiment = output?[0]['label'];
-    });
-  }
-
-
-  @override
-  void dispose() {
-    // Release resources when the screen is disposed
-    Tflite.close();
-    super.dispose();
   }
 }
