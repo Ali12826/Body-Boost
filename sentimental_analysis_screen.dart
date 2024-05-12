@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../exercise/exercise_view_2.dart';
+import '../exercise/negative_view.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -10,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Sentiment Analysis App',
+      title: 'Sentiment Analysis',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -64,16 +67,25 @@ class _SentimentAnalysisPageState extends State<SentimentAnalysisPage> {
           labelScores[label] = score;
           totalScore += score;
         });
-        final List<String> sentiments = [];
-        labelMapping.forEach((label, sentiment) {
-          final score = labelScores[label] ?? 0;
-          final percentage = totalScore > 0 ? (score / totalScore) * 100 : 0;
-          sentiments.add('$sentiment (${percentage.toStringAsFixed(2)}%)');
-        });
-        final String sentimentText = sentiments.join(', ');
-        setState(() {
-          _sentimentResult = sentimentText;
-        });
+
+        // Calculate sentiment percentages
+        double positiveScore = labelScores['LABEL_2'] ?? 0;
+        double neutralScore = labelScores['LABEL_1'] ?? 0;
+        double negativeScore = labelScores['LABEL_0'] ?? 0;
+
+        if (positiveScore + neutralScore > negativeScore) {
+          // More positive or neutral sentiment
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ExerciseView2()),
+          );
+        } else {
+          // More negative sentiment
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NegativeView()),
+          );
+        }
       } else {
         setState(() {
           _sentimentResult = 'Output is empty';
@@ -90,7 +102,7 @@ class _SentimentAnalysisPageState extends State<SentimentAnalysisPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sentiment Analysis App'),
+        title: Text('Sentiment Analysis'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -100,7 +112,7 @@ class _SentimentAnalysisPageState extends State<SentimentAnalysisPage> {
             TextField(
               controller: _inputController,
               decoration: InputDecoration(
-                hintText: 'Enter your input...',
+                hintText: 'How You Are Feeling Today.... ',
               ),
               onChanged: (value) {
                 setState(() {
@@ -134,3 +146,6 @@ class _SentimentAnalysisPageState extends State<SentimentAnalysisPage> {
     );
   }
 }
+
+
+
