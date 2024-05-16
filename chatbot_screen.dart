@@ -1,95 +1,230 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:workout_fitness_flutter_3_main/view/meal_plan/weekly_plan.dart';
+import 'package:workout_fitness_flutter_3_main/view/sentimental_analysis/sentimental_analysis_screen.dart';
+import '../../common/color_extension.dart';
+import '../../common_widget/exercises_row.dart';
+import '../../common_widget/round_button.dart';
+//import '../sentiment_analysis/sentiment_analysis_page.dart';
+import '../sentimental_analysis/sentimental_analysis_screen.dart'; // Import SentimentAnalysisPage
 
-class Gpt3ChatScreen extends StatefulWidget {
-  @override
-  _Gpt3ChatScreenState createState() => _Gpt3ChatScreenState();
-}
+class WeeklyPlan extends StatelessWidget {
+  final List<Map<String, dynamic>> dataArr = [
+    {"name": "Running", "image": "assets/img/2.png"},
+    {"name": "Push-Up", "image": "assets/img/3.png"},
+    {"name": "Leg Extension", "image": "assets/img/5.png"}
+  ];
 
-class _Gpt3ChatScreenState extends State<Gpt3ChatScreen> {
-  TextEditingController _textController = TextEditingController();
-  List<String> _chatMessages = [];
-
-  final String gpt3ApiKey = 'YOUR_GPT3_API_KEY';
-  final String gpt3ApiUrl = 'https://api.openai.com/v1/engines/davinci/completions';
-
-  Future<void> _sendMessage(String messageText) async {
-    if (messageText.trim().isEmpty) return;
-
-    setState(() {
-      _chatMessages.add('User: $messageText');
-    });
-
-    _textController.clear();
-
-    try {
-      final response = await http.post(
-        Uri.parse(gpt3ApiUrl),
-        headers: {
-          'Authorization': 'Bearer $gpt3ApiKey',
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'prompt': messageText,
-          'max_tokens': 50, // Adjust based on desired output length
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        final botResponse = responseData['choices'][0]['text'];
-
-        setState(() {
-          _chatMessages.add('Bot: $botResponse');
-        });
-      } else {
-        print('Failed to send message to GPT-3 API');
-      }
-    } catch (e) {
-      print('Error sending message to GPT-3 API: $e');
-    }
-  }
+  final List<Map<String, dynamic>> trainingDayArr = [
+    {"name": "Monthly & Weekly Plan"},
+    {"name": "Monthly & Weekly Plan"},
+  ];
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('GPT-3 Chat'),
+        backgroundColor: TColor.primary,
+        centerTitle: true,
+        elevation: 0.1,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Image.asset(
+            "assets/img/black_white.png",
+            width: 25,
+            height: 25,
+          ),
+        ),
+        title: Text(
+          "Weekly Diet & Plan",
+          style: TextStyle(
+            color: TColor.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
       ),
-      body: Column(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Carousel for Exercises
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: SizedBox(
+                width: media.width,
+                height: media.width * 0.4,
+                child: CarouselSlider.builder(
+                  options: CarouselOptions(
+                    autoPlay: false,
+                    aspectRatio: 0.5,
+                    enlargeCenterPage: true,
+                    enableInfiniteScroll: false,
+                    viewportFraction: 0.65,
+                    enlargeFactor: 0.4,
+                    enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+                  ),
+                  itemCount: dataArr.length,
+                  itemBuilder: (BuildContext context, int itemIndex, int index) {
+                    var dObj = dataArr[index];
+                    return buildExerciseContainer(dObj);
+                  },
+                ),
+              ),
+            ),
+
+            // Carousel for Training Days
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: SizedBox(
+                width: media.width,
+                height: media.width * 1.1,
+                child: CarouselSlider.builder(
+                  options: CarouselOptions(
+                    autoPlay: false,
+                    aspectRatio: 0.6,
+                    enlargeCenterPage: true,
+                    viewportFraction: 0.85,
+                    enableInfiniteScroll: false,
+                    enlargeFactor: 0.4,
+                    enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+                  ),
+                  itemCount: trainingDayArr.length,
+                  itemBuilder: (BuildContext context, int itemIndex, int index) {
+                    var tObj = trainingDayArr[index];
+                    return buildTrainingDayContainer(context, tObj, index);
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildExerciseContainer(Map<String, dynamic> dObj) {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 10,
+      ),
+      decoration: BoxDecoration(
+        color: TColor.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Stack(
+        alignment: Alignment.bottomLeft,
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: _chatMessages.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_chatMessages[index]),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              dObj["image"],
+              width: double.maxFinite,
+              height: double.maxFinite,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Text(
+              dObj["name"],
+              style: TextStyle(
+                color: TColor.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildTrainingDayContainer(
+      BuildContext context, Map<String, dynamic> tObj, int index) {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 10,
+      ),
+      padding: const EdgeInsets.symmetric(
+        vertical: 20,
+        horizontal: 20,
+      ),
+      decoration: BoxDecoration(
+        color: TColor.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            tObj["name"],
+            style: TextStyle(
+              color: TColor.secondaryText,
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "week 1 to 4",
+            style: TextStyle(
+              color: TColor.secondaryText.withOpacity(0.8),
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const Spacer(),
+          ExercisesRow(
+            number: "1",
+            title: "Exercises 1 to 3",
+            time: "7 Days",
+            isActive: true,
+            onPressed: () {},
+          ),
+          ExercisesRow(
+            number: "2",
+            title: "Exercises 2",
+            time: "7 Days",
+            onPressed: () {},
+          ),
+          const Spacer(),
+          SizedBox(
+            width: 150,
+            height: 40,
+            child: RoundButton(
+              title: "Start",
+              onPressed: () {
+                // Navigate to SentimentAnalysisPage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Weekly(),
+                  ),
                 );
               },
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _textController,
-                    decoration: InputDecoration(
-                      hintText: 'Type a message...',
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: () {
-                    _sendMessage(_textController.text.trim());
-                  },
-                ),
-              ],
-            ),
-          ),
+          const SizedBox(height: 20),
         ],
       ),
     );
