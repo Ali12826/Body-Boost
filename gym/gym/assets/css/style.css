@@ -1,0 +1,405 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+.roboto-thin {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.roboto-light {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.roboto-medium {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.roboto-bold {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.roboto-black {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+}
+
+.roboto-thin-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-style: italic;
+}
+
+.roboto-light-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+}
+
+.roboto-regular-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.roboto-medium-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.roboto-bold-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.roboto-black-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: italic;
+}
+
+.nav_span_fit,
+.nav_span_fine {
+    color: #df283a;
+    font-size: 35px;
+    font-weight: 600;
+}
+
+.nav-item .nav-link {
+    color: white !important;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.nav-item .nav-link:hover {
+    border-bottom: 3px solid #df283a;
+    padding-bottom: 2px;
+}
+
+.nav{
+    position: fixed;
+}
+.carousel_1 {
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.486) url(../img/bg_1.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: border-box;
+    object-fit: cover;
+    background-blend-mode: darken;
+    padding: 17% 9%;
+    color: white;
+}
+
+.carousel_1 h1 {
+    font-size: 80px !important;
+}
+
+.carousel_2 h1 {
+    font-size: 80px !important;
+}
+
+.carousel_3 h1 {
+    font-size: 80px !important;
+}
+
+.carousel_1 p {
+    font-size: 20px !important;
+    width: 50%;
+    letter-spacing: .5px;
+}
+
+.carousel_2 p {
+    font-size: 20px !important;
+    width: 50%;
+    letter-spacing: .5px;
+}
+
+.carousel_3 p {
+    font-size: 20px !important;
+    width: 50%;
+    letter-spacing: .5px;
+}
+
+.carousel_2 {
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.486) url(../img/bg_2.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: border-box;
+    object-fit: cover;
+    background-blend-mode: darken;
+    padding: 17% 9%;
+    color: white;
+}
+
+.carousel_3 {
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.486) url(../img/bg_3.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: border-box;
+    object-fit: cover;
+    background-blend-mode: darken;
+    padding: 17% 9%;
+    color: white;
+}
+
+/********************* Registration page *********************/
+.Registration {
+    height: 100vh;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.486) url(../img/bg_3.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: border-box;
+    object-fit: cover;
+    background-blend-mode: darken;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.Registration_form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Registration_form form {
+    width: 50%;
+    background-color: rgba(19, 16, 16, 0.288);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+}
+
+input {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    /* background: none !important; */
+    /* color: white !important; */
+}
+
+.select input:focus {
+    outline: none !important;
+    border: none !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+
+.submit {
+
+    border: none;
+
+}
+
+.submit:hover {
+    background-color: #df283a;
+    color: white;
+    border-color: #df283a;
+
+}
+
+form p,
+form p a {
+    color: white;
+    text-align: center;
+}
+
+/********************* contact page *********************/
+.contact {
+    /* height: 100vh; */
+    width: 100%;
+    background: rgba(0, 0, 0, 0.486) url(../img/bg_1.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: border-box;
+    object-fit: cover;
+    background-blend-mode: darken;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.shadow {
+    background-color: rgba(19, 16, 16, 0.288);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+    color: white;
+}
+
+.fa {
+    color: #df283a;
+}
+
+.contact-section {
+    margin-top: 150px!important;
+}
+
+/********************* learn page *********************/
+.learm_more {
+    /* height: 100vh; */
+    width: 100%;
+    background: rgba(0, 0, 0, 0.486) url(../img/bg_1.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: border-box;
+    object-fit: cover;
+    background-blend-mode: darken;
+    backdrop-filter: blur(10px);
+   
+    -webkit-backdrop-filter: blur(10px);
+
+}
+
+.data {
+    padding-top: 125px;
+    color: white;
+
+}
+
+
+.data h2 {
+    color: #df283a;
+}
+
+/********************* Home page *********************/
+.home {
+    /* height: 100vh; */
+    width: 100%;
+    background: rgba(0, 0, 0, 0.486) url(../img/bg_1.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: border-box;
+    object-fit: cover;
+    background-blend-mode: darken;
+    /* backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); */
+    /* display: flex; 
+    align-items: center;
+    justify-content: center;  */
+
+}
+
+.contact-form .form-field {
+    position: relative;
+    margin: 15px 0;
+}
+
+.contact-form .input-txt {
+    display: block;
+    width: 100%;
+    height: 36px;
+    border-width: 0 0 2px 0;
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: 400;
+    color: #505050;
+    border-color: grey;
+    margin-top: -15px;
+}
+
+.contact-form .input-txt {
+    background: none;
+    color: white;
+
+}
+
+::-webkit-input-placeholder {
+    color: white;
+}
+
+.contact-form .input-txt:focus {
+    outline: none;
+}
+
+.card1 {
+    margin-top: 180px;
+    background: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.scrolled {
+    background-color: #0f0f0fe3;
+    /* New background color */
+    transition: background-color 0.6s ease-in-out;
+}
+
+.dash_line {
+    width: 100%;
+    padding-top: 80px;
+    border-bottom: 5px dashed #df283a;
+}
+
+table {
+    color: white;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 2px solid white;
+    text-align: left;
+    padding: 8px;
+}
+
+td input {
+    width: 100%;
+    background: none;
+    border: none;
+    color: white;
+}
+
+td input:focus {
+    outline: none;
+}
+
+.card2 {
+    margin-top: 100px;
+    background: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.card3 {
+    margin-top: 100px;
+    background: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* 
+.bg-dark,
+.navbar-dark {
+    background: transparent!important;
+} */
+.bg-dark {
+    background-color: #212529da !important;
+}

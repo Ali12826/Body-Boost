@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <title>BODYBOOST</title>
+  </head>
+
+  <body>
+    <!------------------ NAVBAR ----------------->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"><span class="nav_span_fit">BODYBOOST</span></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item me-3">
+              <a class="nav-link active" aria-current="page" href="home.html">Home</a>
+            </li>    
+              <li class="nav-item me-3">
+                <a class="nav-link" href="contact.html">CONTACT</a>
+              </li>
+              <li class="nav-item ">
+                <!-- <button class="btn btn-danger">
+                  <a href="" >Learn More</a>
+                </button> -->
+                <a href="learn more.html" ><button class="btn btn-danger">
+                    Learn More
+                </button></a>
+                
+              </li>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-interval="10000">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="carousel_1">
+                <h1>FITNESS CLUB.</h1>
+                <P>If you want something you've never had, you must be willing to do something you've neve done</P>
+                <a href="login.html"><button class=" btn btn-danger">Login</button></a> 
+                <a href="signup.html"><button class=" btn btn-danger">signup</button></a> 
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="carousel_2"> 
+                <h1>FITNESS CLUB.</h1>
+                <P>If you want something you've never had, you must be willing to do something you've neve done</P>
+                <a href="login.html"><button class=" btn btn-danger">Login</button></a> 
+                <a href="signup.html"><button class=" btn btn-danger">signup</button></a> 
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="carousel_3">
+                <h1>FITNESS CLUB.</h1>
+                <P>If you want something you've never had, you must be willing to do something you've neve done</P>
+                <a href="login.html"><button class=" btn btn-danger">Login</button></a> 
+                <a href="signup.html"><button class=" btn btn-danger">signup</button></a> 
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <script src="assets/js/bootstrap.js"></script>
+    <script>
+        $('.carousel').carousel({
+         interval: 1000 * 20  // 10 seconds
+    });
+    </script>
+
+  </body>
+</html>
